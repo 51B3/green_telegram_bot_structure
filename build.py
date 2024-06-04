@@ -25,7 +25,7 @@ master = [
     'type nul > run.py',
     '@echo off &echo./env>.gitignore',
     '@echo off &echo.TOKEN = \'\'>.env',
-    'cd core & del main.py /f & rd exceptions misc & cd databases & rd methods models & cd .. & rd databases & cd handlers & del callbacks.py commands.py documents.py messages.py & cd .. & rd handlers & cd keyboards & del inline.py reply.py & cd .. & rd keyboards & cd utils & rd FSM & cd .. & rd utils & cd .. & rd core',
+    'del core\main.py core\handlers\callbacks.py core\handlers\commands.py core\handlers\documents.py core\handlers\messages.py core\keyboards\inline.py core\keyboards\\reply.py & rd core\databases\methods core\databases\models core\databases core\exceptions core\handlers core\keyboards core\misc core\\utils\FSM core\\utils core',
     'rd core\databases\methods core\databases\models core\databases',
     'rd core\databases\methods',
     'rd core\databases\models',
