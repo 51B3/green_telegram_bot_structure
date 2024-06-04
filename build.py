@@ -102,9 +102,9 @@ def main():
                 list(map(lambda x: x+20, choice)))
 
 
-def process(list):
+def process(arg):
     print('\r')
-    for command in tqdm(list, bar_format='|{bar:30}{r_bar}', colour='GREEN'):
+    for command in tqdm(arg, bar_format='|{bar:30}{r_bar}', colour='GREEN'):
         os.system(master[command])
     complete()
 
