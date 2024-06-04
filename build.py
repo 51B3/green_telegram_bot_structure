@@ -4,29 +4,6 @@ from colorama import Fore, Style
 from tqdm import tqdm
 from art import tprint
 
-tree = [
-    '  ├─ <core>',
-    '  │     ├─ <database>',
-    '  │     │       ├─ <methods>',
-    '  │     │       └─ <models>',
-    '  │     ├─ <exceptions>',
-    '  │     ├─ <handlers>',
-    '  │     │       ├─ callbacks.py',
-    '  │     │       ├─ commands.py',
-    '  │     │       ├─ documents.py',
-    '  │     │       └─ messages.py',
-    '  │     ├─ <keyboards>',
-    '  │     │       ├─ inline.py',
-    '  │     │       └─ reply.py',
-    '  │     ├─ <misc>',
-    '  │     ├─ <utils>',
-    '  │     │     └─ <FSM>',
-    '  │     └─ main.py',
-    '  ├─ .env',
-    '  ├─ .gitignore',
-    '  └─ run.py'
-]
-
 master = [
     'md core',
     'cd core & md databases',
@@ -80,7 +57,7 @@ def logo():
 def main():
     logo()
     if cutie.prompt_yes_or_no(
-        Style.RESET_ALL + 'Quick generation of the project structure?',
+        'Quick generation of the project structure?',
         default_is_yes=True,
         yes_text='Yes',
         no_text='No'
@@ -90,6 +67,28 @@ def main():
         os.system('cls')
         logo()
         print('Select the directories or files that will not be created:\n<project>')
+        tree = [
+            '  ├─ <core>',
+            '  │     ├─ <database>',
+            '  │     │       ├─ <methods>',
+            '  │     │       └─ <models>',
+            '  │     ├─ <exceptions>',
+            '  │     ├─ <handlers>',
+            '  │     │       ├─ callbacks.py',
+            '  │     │       ├─ commands.py',
+            '  │     │       ├─ documents.py',
+            '  │     │       └─ messages.py',
+            '  │     ├─ <keyboards>',
+            '  │     │       ├─ inline.py',
+            '  │     │       └─ reply.py',
+            '  │     ├─ <misc>',
+            '  │     ├─ <utils>',
+            '  │     │     └─ <FSM>',
+            '  │     └─ main.py',
+            '  ├─ .env',
+            '  ├─ .gitignore',
+            '  └─ run.py'
+        ]
         choice = cutie.select_multiple(
             tree,
             deselected_unticked_prefix="● ",
@@ -104,6 +103,7 @@ def main():
 
 
 def process(list):
+    print('\r')
     for command in tqdm(list, bar_format='|{bar:30}{r_bar}', colour='GREEN'):
         os.system(master[command])
     complete()
