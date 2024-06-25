@@ -4,68 +4,66 @@ from colorama import Fore, Style
 from tqdm import tqdm
 from art import tprint
 
-master = [
-    'md core',
-    'md core\databases',
-    'md core\databases\methods',
-    'md core\databases\models',
-    'md core\exceptions',
-    'md core\handlers',
-    'type nul > core\handlers\callbacks.py',
-    'type nul > core\handlers\commands.py',
-    'type nul > core\handlers\documents.py',
-    'type nul > core\handlers\messages.py',
-    'md core\keyboards',
-    'type nul > core\keyboards\inline.py',
-    'type nul > core\keyboards\\reply.py',
-    'md core\misc',
-    'md core\\utils',
-    'md core\\utils\FSM',
-    'type nul > core\main.py',
-    'type nul > run.py',
-    '@echo off &echo./env>.gitignore',
-    '@echo off &echo.TOKEN = \'\'>.env',
-    'del core\main.py core\handlers\callbacks.py core\handlers\commands.py core\handlers\documents.py core\handlers\messages.py core\keyboards\inline.py core\keyboards\\reply.py & rd core\databases\methods core\databases\models core\databases core\exceptions core\handlers core\keyboards core\misc core\\utils\FSM core\\utils core',
-    'rd core\databases\methods core\databases\models core\databases',
-    'rd core\databases\methods',
-    'rd core\databases\models',
-    'rd core\exceptions',
-    'del core\handlers\callbacks.py core\handlers\commands.py core\handlers\documents.py core\handlers\messages.py & rd core\handlers',
-    'del core\handlers\callbacks.py',
-    'del core\handlers\commands.py',
-    'del core\handlers\documents.py',
-    'del core\handlers\messages.py',
-    'del core\keyboards\inline.py core\keyboards\\reply.py & rd core\keyboards',
-    'del core\keyboards\inline.py',
-    'del core\keyboards\\reply.py',
-    'rd core\misc',
-    'rd core\\utils\FSM core\\utils',
-    'rd core\\utils\FSM',
-    'del core\main.py',
-    'del .env',
-    'del .gitignore',
-    'del run.py'
-]
+# The tuple is an ordered structure for creating project objects, where elements are passed in the format: path, object, data (optional)
+master = (
+    ('.', 'core'),
+    ('core', 'databases'),
+    ('core\\databases', 'methods'),
+    ('core\\databases', 'models'),
+    ('core', 'exceptions'),
+    ('core', 'handlers'),
+    ('core\\handlers', 'callbacks.py', ''),
+    ('core\\handlers', 'commands.py', ''),
+    ('core\\handlers', 'documents.py', ''),
+    ('core\\handlers', 'messages.py', ''),
+    ('core', 'keyboards'),
+    ('core\\keyboards', 'inline.py', ''),
+    ('core\\keyboards', 'reply.py', ''),
+    ('core', 'misc'),
+    ('core', 'utils'),
+    ('core\\utils', 'FSM'),
+    ('core', 'main.py', ''),
+    ('.', '.env', 'TOKEN = \'\''),
+    ('.', '.gitignore', ''),
+    ('.', 'run.py', '')
+)
 
 
-def logo():
+def label():
     print(Fore.GREEN)
     tprint('Green Telegram bot structure', font="mini")
     print(Style.RESET_ALL, end='\r')
 
 
+def creation(arg):
+    for el in tqdm(arg, bar_format='|{bar:30}{r_bar}', colour='GREEN'):
+        # Checking the existence of an object path
+        if not os.path.exists(el[0]):
+            continue
+
+        # Checking the type of the transmitted object
+        if len(el) == 3:
+            with open(f'{el[0]}\\{el[1]}', 'w') as file:
+                try:
+                    file.write(el[2])
+                except:
+                    continue
+        else:
+            os.mkdir(f'{el[0]}\\{el[1]}')
+
+
 def main():
-    logo()
+    label()
     if cutie.prompt_yes_or_no(
         'Quick generation of the project structure?',
         default_is_yes=True,
         yes_text='Yes',
         no_text='No'
     ):
-        process([i for i in range(0, 20)])
+        creation(master)
     else:
         os.system('cls')
-        logo()
+        label()
         print('Select the directories or files that will not be created:\n<project>')
         tree = [
             '  ├─ <core>',
@@ -89,7 +87,7 @@ def main():
             '  ├─ .gitignore',
             '  └─ run.py'
         ]
-        choice = cutie.select_multiple(
+        selection = cutie.select_multiple(
             tree,
             deselected_unticked_prefix="● ",
             deselected_ticked_prefix="× ",
@@ -98,18 +96,8 @@ def main():
             hide_confirm=False,
             deselected_confirm_label="CONFIRM",
             selected_confirm_label=Fore.GREEN + "CONFIRM" + Style.RESET_ALL)
-        process([i for i in range(0, 20)] +
-                list(map(lambda x: x+20, choice)))
-
-
-def process(arg):
-    print('\r')
-    for command in tqdm(arg, bar_format='|{bar:30}{r_bar}', colour='GREEN'):
-        os.system(master[command])
-    complete()
-
-
-def complete():
+        # Calling an object creation function in which objects rejected during selection are not passed as part of an argument
+        creation(tuple(el for i, el in enumerate(master) if i not in selection))
     os.remove(os.path.basename(__file__))
 
 
