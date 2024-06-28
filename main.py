@@ -1,6 +1,6 @@
 import os
 import cutie
-from colorama import Fore, Style
+from colorama import Fore
 from tqdm import tqdm
 from art import tprint
 
@@ -32,7 +32,7 @@ master = (
 def label():
     print(Fore.GREEN)
     tprint('Green Telegram bot structure', font="mini")
-    print(Style.RESET_ALL, end='\r')
+    print(Fore.RESET, end='\r')
 
 
 def creation(arg):
@@ -91,11 +91,11 @@ def main():
             tree,
             deselected_unticked_prefix="● ",
             deselected_ticked_prefix="× ",
-            selected_unticked_prefix=Fore.GREEN + "○ " + Style.RESET_ALL,
-            selected_ticked_prefix=Fore.GREEN + "× " + Style.RESET_ALL,
+            selected_unticked_prefix=Fore.GREEN + "○ " + Fore.RESET,
+            selected_ticked_prefix=Fore.GREEN + "× " + Fore.RESET,
             hide_confirm=False,
             deselected_confirm_label="CONFIRM",
-            selected_confirm_label=Fore.GREEN + "CONFIRM" + Style.RESET_ALL)
+            selected_confirm_label=Fore.GREEN + "CONFIRM" + Fore.RESET)
         # Calling an object creation function in which objects rejected during selection are not passed as part of an argument
         creation(tuple(el for i, el in enumerate(master) if i not in selection))
     os.remove(os.path.basename(__file__))
